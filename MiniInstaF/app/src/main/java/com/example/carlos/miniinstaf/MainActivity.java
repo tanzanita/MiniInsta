@@ -4,29 +4,19 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TableLayout;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity{
     ImageView ivImage;
@@ -40,7 +30,7 @@ public class MainActivity extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-       ivImage = (ImageView) findViewById(R.id.ivImage);
+        ivImage = (ImageView) findViewById(R.id.ivImage);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +39,6 @@ public class MainActivity extends AppCompatActivity{
                 /*Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();*/
                 SeleccionarImagen();
-
             }
         });
     }
@@ -73,47 +62,9 @@ public class MainActivity extends AppCompatActivity{
                 }
             }
         });
-
         builder.show();
 
     }
-    /*
-    public void mostrarFiltros(){
-        //Asignar ubicacion de los botones
-        LinearLayout btnConteiner = new LinearLayout(getApplicationContext());
-        btnConteiner.setLayoutParams(new LinearLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT));
-        btnConteiner.setOrientation(LinearLayout.VERTICAL);
-        btnConteiner.setGravity(Gravity.RIGHT);
-        //Crear botones dinamicamente
-        for(int i=0; i<5;i++) {
-            final LinearLayout buttonContainer = (LinearLayout) LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_main, null);
-            ImageView btnImg = (ImageView) buttonContainer.findViewById(R.id.btn_image);
-            TextView btnText = (TextView) buttonContainer.findViewById(R.id.btn_text);
-            btnText.setText("Filtro" + i);
-            btnText.setBackgroundColor(43);
-            btnImg.setImageResource(R.mipmap.ic_launcher);
-            buttonContainer.setTag(i);
-
-            buttonContainer.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
-                    Toast.makeText(getApplicationContext(),"Listener botón" + v.getTag(),Toast.LENGTH_SHORT).show();
-                }
-
-
-        });
-            //Va agregando botones al contenedor
-            btnConteiner.addView(buttonContainer);
-
-        }
-        //Crear contenedor para agregar contenedor de botones
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(400,1500,Gravity.RIGHT);
-        //Agregar contenedor de botones
-        addContentView(btnConteiner,params);
-
-
-    }
-*/
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data){
