@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,9 +29,10 @@ import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity {
     ImageView ivImage;
-    Integer REQUEST_CAMERA =1, SELECT_FILE=0;
+    Integer REQUEST_CAMERA = 1, SELECT_FILE = 0;
+   
 
 
     @Override
@@ -40,7 +42,8 @@ public class MainActivity extends AppCompatActivity{
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-       ivImage = (ImageView) findViewById(R.id.ivImage);
+        ivImage = (ImageView) findViewById(R.id.ivImage);
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -54,21 +57,21 @@ public class MainActivity extends AppCompatActivity{
         });
     }
 
-    private void SeleccionarImagen(){
-        final CharSequence[] items = {"Camara","Galeria", "Cancelar"};
+    private void SeleccionarImagen() {
+        final CharSequence[] items = {"Camara", "Galeria", "Cancelar"};
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         builder.setTitle("Agregar imagen");
         builder.setItems(items, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if(items[which].equals("Camara")){
+                if (items[which].equals("Camara")) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(intent, REQUEST_CAMERA);
-                }else if(items[which].equals("Galeria")){
-                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media. EXTERNAL_CONTENT_URI);
+                } else if (items[which].equals("Galeria")) {
+                    Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     intent.setType("image/*");
-                    startActivityForResult(intent.createChooser(intent, "Seleccione un archivo"),SELECT_FILE);
-                }else if(items[which].equals("Cancelar")){
+                    startActivityForResult(intent.createChooser(intent, "Seleccione un archivo"), SELECT_FILE);
+                } else if (items[which].equals("Cancelar")) {
                     dialog.dismiss();
                 }
             }
@@ -77,54 +80,28 @@ public class MainActivity extends AppCompatActivity{
         builder.show();
 
     }
-    /*
-    public void mostrarFiltros(){
-        //Asignar ubicacion de los botones
-        LinearLayout btnConteiner = new LinearLayout(getApplicationContext());
-        btnConteiner.setLayoutParams(new LinearLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT,TableLayout.LayoutParams.WRAP_CONTENT));
-        btnConteiner.setOrientation(LinearLayout.VERTICAL);
-        btnConteiner.setGravity(Gravity.RIGHT);
-        //Crear botones dinamicamente
-        for(int i=0; i<5;i++) {
-            final LinearLayout buttonContainer = (LinearLayout) LayoutInflater.from(getApplicationContext()).inflate(R.layout.activity_main, null);
-            ImageView btnImg = (ImageView) buttonContainer.findViewById(R.id.btn_image);
-            TextView btnText = (TextView) buttonContainer.findViewById(R.id.btn_text);
-            btnText.setText("Filtro" + i);
-            btnText.setBackgroundColor(43);
-            btnImg.setImageResource(R.mipmap.ic_launcher);
-            buttonContainer.setTag(i);
 
-            buttonContainer.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v){
-                    Toast.makeText(getApplicationContext(),"Listener botón" + v.getTag(),Toast.LENGTH_SHORT).show();
-                }
-
-
-        });
-            //Va agregando botones al contenedor
-            btnConteiner.addView(buttonContainer);
-
-        }
-        //Crear contenedor para agregar contenedor de botones
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(400,1500,Gravity.RIGHT);
-        //Agregar contenedor de botones
-        addContentView(btnConteiner,params);
-
-
-    }
-*/
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data){
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == Activity.RESULT_OK){
-            if(requestCode==REQUEST_CAMERA){
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_CAMERA) {
                 Bundle bundle = data.getExtras();
                 final Bitmap bitmap = (Bitmap) bundle.get("data");
                 ivImage.setImageBitmap(bitmap);
 
-            }else if(requestCode==SELECT_FILE){
+                Toast toast1 = Toast.makeText(getApplicationContext(), "on Activity result", Toast.LENGTH_SHORT);
+                toast1.show();
+                toast1.setGravity(Gravity.CENTER, 0, 0);
+
+                //Pasar la imagen a main 2
+                //String img_selec = bitmap.toString();
+                Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+                //intent.putExtra("IMAGEN", img_selec);
+                startActivity(intent);
+
+            } else if (requestCode == SELECT_FILE) {
                 Uri selectImageUri = data.getData();
                 ivImage.setImageURI(selectImageUri);
 
@@ -132,6 +109,7 @@ public class MainActivity extends AppCompatActivity{
 
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -154,4 +132,5 @@ public class MainActivity extends AppCompatActivity{
 
         return super.onOptionsItemSelected(item);
     }
+
 }
